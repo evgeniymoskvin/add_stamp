@@ -1,11 +1,17 @@
 from reportlab.pdfgen import canvas
+import os
 from fpdf import FPDF
 from PyPDF2 import PdfFileWriter, PdfFileReader, PdfReader, PdfWriter
 
-input_file = PdfReader(open("1.pdf", "rb"))
-box = input_file.pages[0].mediabox
-print(box)
 
+current_folder = input("Введите путь к папке: ")
+print(f'Указана папка: {current_folder}')
+folder_walk = os.walk(current_folder, onerror=None, followlinks=False)
+folder_walk_list = []
+
+
+for i in folder_walk:
+    folder_walk_list.append(i)
 
 pdf = FPDF()
 pdf.add_page()
@@ -36,16 +42,27 @@ pdf.cell(w=17, h=5, txt='Дата', border=1, align='L', fill=False)
 pdf.cell(w=18, h=5, txt='Экз.', border=1, align='L', fill=False)
 pdf.output(f'watermark.pdf')
 
+
 watermark = PdfReader(open("watermark.pdf", "rb"))
+for folder in folder_walk_list:
+    print(f'Папка: {folder[0]}')
 
-output_file = PdfWriter()
-input_page = input_file.pages[0]
-input_page.merge_page(watermark.pages[0])
-output_file.add_page(input_page)
+    for current_file in folder[2]:
+        try:
+            file_path_full = os.path.join(folder[0], current_file)
+            input_file = PdfReader(open(f'{file_path_full}', "rb"))
+            output_file = PdfWriter()
+            input_page = input_file.pages[0]
+            input_page.merge_page(watermark.pages[0])
+            output_file.add_page(input_page)
 
-for i in range (1, len(input_file.pages)):
-    output_file.add_page(input_file.pages[i])
-
-
-with open("document-output.pdf", "wb") as outputStream:
-    output_file.write(outputStream)
+            for i in range(1, len(input_file.pages)):
+                output_file.add_page(input_file.pages[i])
+            os.chdir(current_folder)
+            if not os.path.isdir('approve'):
+                os.mkdir('approve')
+            file_export_path_full = os.path.join(current_folder, 'approve', current_file)
+            with open(file_export_path_full, "wb") as outputStream:
+                output_file.write(outputStream)
+        except Exception as e:
+            print(f'Ошибка выполнения файла {current_file}. {e}')
