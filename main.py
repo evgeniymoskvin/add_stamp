@@ -1,4 +1,5 @@
 from reportlab.pdfgen import canvas
+import time
 import os
 from fpdf import FPDF
 from PyPDF2 import PdfFileWriter, PdfFileReader, PdfReader, PdfWriter
@@ -40,10 +41,11 @@ pdf.x = x_cord
 pdf.cell(w=35, h=5, txt='Инв. №', border=1, align='L', fill=False)
 pdf.cell(w=17, h=5, txt='Дата', border=1, align='L', fill=False)
 pdf.cell(w=18, h=5, txt='Экз.', border=1, align='L', fill=False)
-pdf.output(f'watermark.pdf')
+watermark_path = os.path.join(current_folder, 'watermark.pdf')
+pdf.output(watermark_path)
 
 
-watermark = PdfReader(open("watermark.pdf", "rb"))
+watermark = PdfReader(open(watermark_path, "rb"))
 for folder in folder_walk_list:
     print(f'Папка: {folder[0]}')
 
@@ -66,3 +68,5 @@ for folder in folder_walk_list:
                 output_file.write(outputStream)
         except Exception as e:
             print(f'Ошибка выполнения файла {current_file}. {e}')
+
+time.sleep(10)
