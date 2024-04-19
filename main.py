@@ -19,6 +19,7 @@ try:
     pdf.add_page()
     pdf.add_font('times', '', fname=r'c:\Windows\Fonts\times.ttf', uni=True)
     pdf.set_font('times', size=11)
+    pdf.set_line_width(0.5)
     x_cord = 130
     pdf.x = x_cord
     pdf.y = 240
@@ -58,11 +59,13 @@ for folder in folder_walk_list:
             file_path_full = os.path.join(folder[0], current_file)
             input_file = PdfReader(open(f'{file_path_full}', "rb"))
             output_file = PdfWriter()
-            input_page = input_file.pages[0]
-            input_page.merge_page(watermark.pages[0])
-            output_file.add_page(input_page)
+            for i in range(2):
+                input_page = input_file.pages[i]
+                input_page.merge_page(watermark.pages[0])
+                output_file.add_page(input_page)
 
-            for i in range(1, len(input_file.pages)):
+
+            for i in range(2, len(input_file.pages)):
                 output_file.add_page(input_file.pages[i])
             os.chdir(current_folder)
             if not os.path.isdir('approve'):
