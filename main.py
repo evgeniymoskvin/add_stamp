@@ -14,38 +14,42 @@ folder_walk_list = []
 for i in folder_walk:
     folder_walk_list.append(i)
 
-pdf = FPDF()
-pdf.add_page()
-pdf.add_font('times', '', fname='times.ttf', uni=True)
-pdf.set_font('times', size=11)
-x_cord = 130
-pdf.x = x_cord
-pdf.y = 240
+try:
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.add_font('times', '', fname=r'c:\Windows\Fonts\times.ttf', uni=True)
+    pdf.set_font('times', size=11)
+    x_cord = 130
+    pdf.x = x_cord
+    pdf.y = 240
 
-pdf.cell(w=70, h=5, txt='СОГЛАСОВАНО', border=1, align='C', fill=False, ln=1)
-pdf.x = x_cord
-pdf.cell(w=70, h=5, txt='АО КИС «ИСТОК»', border=1, align='C', fill=False, ln=1)
-pdf.x = x_cord
-pdf.cell(w=35, h=5, txt='Главный инженер', border=1, align='C', fill=False)
-pdf.cell(w=35, h=5, txt='ГИП', border=1, align='C', fill=False, ln=1)
-pdf.x = x_cord
-pdf.cell(w=35, h=5, txt='Р.Ш. Бичурин', border='LTR', align='C', fill=False)
-pdf.cell(w=35, h=5, txt='Ю.В. Смирнов', border='LTR', align='C', fill=False, ln=1)
-pdf.x = x_cord
-pdf.cell(w=35, h=5, txt='', border='LRB', align='C', fill=False)
-pdf.cell(w=35, h=5, txt='', border='LRB', align='C', fill=False, ln=1)
-pdf.x = x_cord
-pdf.cell(w=35, h=5, txt='Дата', border=1, align='L', fill=False)
-pdf.cell(w=35, h=5, txt='Дата', border=1, align='L', fill=False, ln=1)
-pdf.x = x_cord
-pdf.cell(w=35, h=5, txt='Инв. №', border=1, align='L', fill=False)
-pdf.cell(w=17, h=5, txt='Дата', border=1, align='L', fill=False)
-pdf.cell(w=18, h=5, txt='Экз.', border=1, align='L', fill=False)
-watermark_path = os.path.join(current_folder, 'watermark.pdf')
-pdf.output(watermark_path)
+    pdf.cell(w=70, h=5, txt='СОГЛАСОВАНО', border=1, align='C', fill=False, ln=1)
+    pdf.x = x_cord
+    pdf.cell(w=70, h=5, txt='АО КИС «ИСТОК»', border=1, align='C', fill=False, ln=1)
+    pdf.x = x_cord
+    pdf.cell(w=35, h=5, txt='Главный инженер', border=1, align='C', fill=False)
+    pdf.cell(w=35, h=5, txt='ГИП', border=1, align='C', fill=False, ln=1)
+    pdf.x = x_cord
+    pdf.cell(w=35, h=5, txt='Р.Ш. Бичурин', border='LTR', align='C', fill=False)
+    pdf.cell(w=35, h=5, txt='Ю.В. Смирнов', border='LTR', align='C', fill=False, ln=1)
+    pdf.x = x_cord
+    pdf.cell(w=35, h=5, txt='', border='LRB', align='C', fill=False)
+    pdf.cell(w=35, h=5, txt='', border='LRB', align='C', fill=False, ln=1)
+    pdf.x = x_cord
+    pdf.cell(w=35, h=5, txt='Дата', border=1, align='L', fill=False)
+    pdf.cell(w=35, h=5, txt='Дата', border=1, align='L', fill=False, ln=1)
+    pdf.x = x_cord
+    pdf.cell(w=35, h=5, txt='Инв. №', border=1, align='L', fill=False)
+    pdf.cell(w=17, h=5, txt='Дата', border=1, align='L', fill=False)
+    pdf.cell(w=18, h=5, txt='Экз.', border=1, align='L', fill=False)
+    watermark_path = os.path.join(current_folder, 'watermark.pdf')
+    pdf.output(watermark_path)
 
 
-watermark = PdfReader(open(watermark_path, "rb"))
+    watermark = PdfReader(open(watermark_path, "rb"))
+except Exception as e:
+    print(e)
+
 for folder in folder_walk_list:
     print(f'Папка: {folder[0]}')
 
