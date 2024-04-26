@@ -41,7 +41,7 @@ try:
     pdf.cell(w=35, h=5, txt='Дата', border=1, align='L', fill=False, ln=1)
     pdf.x = x_cord
     pdf.cell(w=35, h=5, txt='Инв. №', border=1, align='L', fill=False)
-    pdf.cell(w=17, h=5, txt='Дата', border=1, align='L', fill=False)
+    pdf.cell(w=17, h=5, txt='Изм.', border=1, align='L', fill=False)
     pdf.cell(w=18, h=5, txt='Экз.', border=1, align='L', fill=False)
     watermark_path = os.path.join(current_folder, 'watermark.pdf')
     pdf.output(watermark_path)
